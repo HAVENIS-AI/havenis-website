@@ -1,1 +1,539 @@
-<doctype html>
+<script>
+  // Language-aware thank-you redirect (DE -> /thanks, EN -> /thanks-en)
+  document.addEventListener('DOMContentLoaded', () => {
+    ['contactForm','newsletterForm'].forEach(id => {
+      const f = document.getElementById(id);
+      if (!f) return;
+      f.addEventListener('submit', () => {
+        const lang = document.documentElement.lang || 'de';
+        const target = (lang === 'en') ? '/thanks-en' : '/thanks';
+        f.setAttribute('action', target);
+      });
+    });
+  });
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HAVENIS AI – Kontaktlose KI-Wahrnehmung</title>
+  <meta name="description" content="HAVENIS AI: KI erkennt menschliche Präsenz, Bewegung & Vitalmuster kontaktlos über Wi‑Fi – kamera‑frei, DSGVO‑konform. Für Smart Care, Sicherheit und natürliche Interaktion."/>
+  <link rel="canonical" href="https://havenis-ai.netlify.app/">
+  <meta name="theme-color" content="#071026">
+  <meta name="color-scheme" content="dark light">
+  <meta name="robots" content="index,follow">
+  <style>
+    :root { --bg:#071026; --card:rgba(255,255,255,0.04); --accent:#00d4ff; --accent-2:#9d4edd; --text:#e6f0ff; --muted:#9fb3c8; --radius:16px; --shadow:0 8px 24px rgba(0,0,0,0.35); --transition:all .35s cubic-bezier(.25,.8,.25,1); }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";background:radial-gradient(1200px 600px at 10% -20%,rgba(0,212,255,.08),transparent 60%),radial-gradient(800px 800px at 90% 110%,rgba(157,78,221,.08),transparent 60%),var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+    header{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 5%;background:rgba(7,16,38,.75);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);z-index:1000}
+    .logo{font-size:1.4rem;font-weight:800;letter-spacing:.5px;color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,.35)}
+    nav.main-nav{display:flex;gap:16px;align-items:center}
+    nav.main-nav a{color:var(--text);text-decoration:none;font-weight:600;padding:.5rem .9rem;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:var(--transition)}
+    nav.main-nav a:hover{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#04101b;transform:translateY(-2px)}
+    .lang-selector{display:flex;gap:8px;align-items:center}
+    .lang-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--text);padding:.5rem .9rem;border-radius:999px;cursor:pointer;font-size:.9rem;transition:var(--transition)}
+    .lang-btn:hover,.lang-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-color:transparent;color:#030612;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,255,.25)}
+    .hero{padding:8rem 5% 6rem;display:grid;grid-template-columns:1.3fr 1fr;gap:4rem;align-items:center;min-height:90vh;position:relative}
+    .hero-text h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;line-height:1.1;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 30%,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.5px}
+    .hero-text p{font-size:1.1rem;color:var(--muted);max-width:65ch;margin-bottom:2rem}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.6rem;border-radius:999px;text-decoration:none;font-weight:600;transition:var(--transition);border:2px solid transparent;color:var(--text)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#04101b;box-shadow:0 10px 25px rgba(0,212,255,.25)}
+    .btn-primary:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 14px 35px rgba(157,78,221,.35)}
+    .btn-outline{border-color:rgba(255,255,255,.2)}
+    .hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+    .wifi-visual{width:min(80vw,520px);aspect-ratio:1;position:relative;filter:drop-shadow(0 20px 30px rgba(0,212,255,.25))}
+    .wave{position:absolute;inset:0;border:2px solid rgba(0,212,255,.4);border-radius:50%;animation:wave-anim 4s infinite ease-out}
+    .wave:nth-child(2){animation-delay:-.8s;opacity:.6}.wave:nth-child(3){animation-delay:-1.6s;opacity:.35}.wave:nth-child(4){animation-delay:-2.4s;opacity:.2}
+    @keyframes wave-anim{0%{transform:scale(.5);opacity:.7}100%{transform:scale(2.2);opacity:0}}
+    .center-dot{position:absolute;width:90px;height:90px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,var(--accent),var(--accent-2));border-radius:50%;box-shadow:0 0 0 12px rgba(0,212,255,.15),0 0 60px rgba(157,78,221,.35)}
+    section{padding:5rem 5%;max-width:1200px;margin:0 auto}
+    .grid{display:grid;gap:3rem;align-items:center}
+    .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:3rem}
+    h2.section-title{font-size:2.3rem;font-weight:700;margin-bottom:1rem;text-align:center}
+    .subtitle{text-align:center;color:var(--muted);max-width:70ch;margin:0 auto 3rem}
+    .tech-card,.use-card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:2rem;transition:var(--transition)}
+    .tech-card:hover,.use-card:hover{border-color:rgba(0,212,255,.4);transform:translateY(-8px);box-shadow:var(--shadow)}
+    .emoji-icon{font-size:2rem;margin-bottom:.75rem;display:inline-block}
+    .use-card{text-align:center}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.12);color:var(--accent);padding:.4rem .9rem;border-radius:999px;font-weight:700}
+    .contact{max-width:700px;margin:0 auto;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .form-group{display:flex;flex-direction:column}
+    .form-group.full{grid-column:1 / -1}
+    label{font-weight:500;color:var(--muted);margin-bottom:.5rem;font-size:.95rem}
+    input,textarea{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:.9rem 1rem;border-radius:12px;font-family:inherit;transition:var(--transition)}
+    input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,212,255,.12)}
+    textarea{min-height:140px;resize:vertical}
+    .btn-block{width:100%;justify-content:center;margin-top:1rem}
+    .newsletter{background:linear-gradient(90deg,rgba(0,212,255,.12),rgba(157,78,221,.08));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:2rem;text-align:center;margin-top:2rem}
+    .newsletter-form{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;justify-content:center}
+    .newsletter-form input{min-width:260px;flex:1}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:3rem 5% 2rem;text-align:center;color:var(--muted)}
+    .footer-links{display:flex;gap:2rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}
+    .footer-links a{color:var(--muted);text-decoration:none;transition:var(--transition)}
+    .footer-links a:hover{color:var(--accent)}
+    .fade-in{opacity:0;transform:translateY(24px);transition:opacity .8s ease .2s,transform .8s ease .2s}
+    .fade-in.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;text-align:center;gap:3rem}.form-grid{grid-template-columns:1fr}.newsletter-form{flex-direction:column}.newsletter-form input{min-width:auto}nav.main-nav{display:none}}
+    .btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo">HAVENIS AI</a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <a href="#partners">Design‑Partner</a>
+      <a href="#technology">Technologie</a>
+      <a href="#security">Sicherheit & Datenschutz</a>
+      <a href="#investors">Für Investoren</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+    <nav class="lang-selector" role="navigation" aria-label="Sprachauswahl">
+      <button class="lang-btn active" data-lang="de" aria-label="Deutsch (aktiv)" aria-pressed="true"><span class="lang-flag">🇩🇪</span> <span class="lang-label" data-i18n="lang.de">Deutsch</span></button>
+      <button class="lang-btn" data-lang="en" aria-label="Englisch" aria-pressed="false"><span class="lang-flag">🇬🇧</span> <span class="lang-label" data-i18n="lang.en">English</span></button>
+      <button class="lang-btn" data-lang="ru" aria-label="Russisch" aria-pressed="false"><span class="lang-flag">🇷🇺</span> <span class="lang-label" data-i18n="lang.ru">Русский</span></button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero fade-in">
+    <div class="hero-text">
+      <h1 data-i18n="hero.title">KI, die wahrnimmt – ohne zu berühren</h1>
+      <p data-i18n="hero.subtitle">HAVENIS AI nutzt Wi‑Fi‑Sensing‑KI, um menschliche Anwesenheit, Atmung und Bewegungsmuster kontaktlos zu erkennen – für mehr Sicherheit, Pflege und Komfort.</p>
+      <div class="cta-group">
+        <a href="#partners" class="btn btn-primary" aria-label="Early Access anfragen" data-i18n="hero.cta.primary">🚀 Early Access anfragen</a>
+        <a href="#technology" class="btn btn-outline" aria-label="Technologie entdecken" data-i18n="hero.cta.secondary">📶 Technologie entdecken</a>
+      </div>
+      <div style="margin-top:1.25rem; color:var(--muted); font-size:0.95rem;">
+        <span class="badge">🔒 Privacy‑by‑Design</span>
+        <span class="badge" style="margin-left:8px;">🧠 On‑Device KI</span>
+        <span class="badge" style="margin-left:8px;">📡 Nutzt bestehendes Wi‑Fi</span>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="wifi-visual">
+        <div class="wave"></div><div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        <div class="center-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="fade-in">
+    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+      <div>
+        <h2 style="font-size: 2.3rem; margin-bottom: 1rem;" data-i18n="mission.title">Innovation mit Verantwortung</h2>
+        <p data-i18n="mission.text" style="color: var(--muted); font-size: 1.05rem;">Unsere KI arbeitet ohne Kameras, ohne Mikrofone und ohne biometrische Speicherung. Sie analysiert ausschließlich abstrakte Funkwellenmuster – für maximalen Datenschutz und Akzeptanz.</p>
+        <ul style="margin-top: 1.5rem; padding-left: 1.5rem; color: var(--muted)">
+          <li data-i18n="mission.point1">100% anonym: Keine Gesichts‑ oder Audiodaten</li>
+          <li data-i18n="mission.point2">Einfache Integration: Nutzt bestehendes Wi‑Fi</li>
+          <li data-i18n="mission.point3">Echtzeitfähig: Ereigniserkennung typ. &lt; 200 ms auf Edge‑Hardware</li>
+        </ul>
+      </div>
+      <div style="text-align: center;">
+        <div class="emoji-icon" aria-hidden="true" style="font-size:8rem; opacity:0.9;">🧠</div>
+        <div style="margin-top: 1.5rem;">
+          <span class="badge" data-i18n="mission.badge">🇩🇪 KI‑Sensing – Entwicklung in Deutschland</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technologie -->
+  <section id="technology" class="fade-in">
+    <h2 class="section-title" data-i18n="tech.title">Wie Wi‑Fi‑Sensing funktioniert</h2>
+    <p class="subtitle" data-i18n="tech.subtitle">Jede Bewegung verändert Wi‑Fi‑Reflexionen. Unsere KI interpretiert diese Muster mit Deep Learning.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">📶</div>
+        <h3 data-i18n="tech.step1.title">1. Signal‑Erfassung</h3>
+        <p data-i18n="tech.step1.desc">Router senden Wi‑Fi‑Wellen und empfangen Reflexionen. Jede Bewegung, jeder Atemzug oder Präsenz erzeugt charakteristische Störungen im Signalraum.</p>
+      </div>
+      <div class="tech-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🧮</div>
+        <h3 data-i18n="tech.step2.title">2. KI‑Dekodierung</h3>
+        <p data-i18n="tech.step2.desc">Ein lokal laufendes Deep‑Learning‑Modell verarbeitet Echtzeitdaten zu Bewegungsprofil, Atemfrequenz und räumlicher Position – ohne Cloud.</p>
+      </div>
+      <div class="tech-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🛡️</div>
+        <h3 data-i18n="tech.step3.title">3. Anonyme Aktionen</h3>
+        <p data-i18n="tech.step3.desc">Ereignisse (z. B. Sturz, Präsenz, Unruhe) lösen Aktionen aus: Alarme, Lichtsteuerung oder anonyme Statistiken – deine Privatsphäre bleibt gewahrt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sicherheit & Datenschutz -->
+  <section id="security" class="fade-in">
+    <h2 class="section-title" data-i18n="security.title">Sicherheit & Datenschutz – integriert</h2>
+    <p class="subtitle" data-i18n="security.subtitle">Privacy‑by‑Design, On‑Device, Ende‑zu‑Ende verschlüsselt. DPIA auf Anfrage.</p>
+    <div class="uses">
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🔐</div>
+        <h3 data-i18n="security.point1.title">On‑Device Verarbeitung</h3>
+        <p data-i18n="security.point1.desc">Standardmäßig bleiben Rohdaten lokal. Nur Ereignis‑Metadaten optional extern.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🧾</div>
+        <h3 data-i18n="security.point2.title">DPIA & Verträge</h3>
+        <p data-i18n="security.point2.desc">Datenschutz‑Folgenabschätzung, NDAs und AV‑Verträge verfügbar.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🧪</div>
+        <h3 data-i18n="security.point3.title">Transparente Tests</h3>
+        <p data-i18n="security.point3.desc">Pilot‑KPIs mit wöchentlichen Reports. Kein Medizinprodukt – keine Diagnose.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anwendungen -->
+  <section id="applications" class="fade-in" style="padding: 6rem 5%;">
+    <h2 class="section-title" data-i18n="apps.title">Anwendungsbereiche mit Mehrwert</h2>
+    <p class="subtitle" data-i18n="apps.subtitle">Von der pflegenden Nachbarschaft bis zur sicheren Fabrik – unsere KI passt sich an.</p>
+    <div class="uses">
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🏥</div>
+        <h3 data-i18n="apps.health.title">Gesundheit & Pflege</h3>
+        <p data-i18n="apps.health.desc">Präventive Sturzerkennung, Atemüberwachung und Präsenzkontrolle im Smart Home – diskret und respektvoll.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🏠</div>
+        <h3 data-i18n="apps.smart.title">Smart Living 2.0</h3>
+        <p data-i18n="apps.smart.desc">Räume reagieren auf Präsenz: Licht, Klima und Unterhaltung starten intuitiv – ohne Sprachbefehl oder Touch.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🛡️</div>
+        <h3 data-i18n="apps.security.title">Sicherheit & Gebäude</h3>
+        <p data-i18n="apps.security.desc">Erkennung unbefugter Anwesenheit in sensiblen Bereichen – ohne Kameras, ohne Datenschutzbedenken.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🏭</div>
+        <h3 data-i18n="apps.industry.title">Industrie 4.0</h3>
+        <p data-i18n="apps.industry.desc">Mensch‑Maschine‑Zusammenarbeit: Sicherheitssysteme erkennen Arbeiter in Gefahrenzonen in Echtzeit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design-Partner -->
+  <section id="partners" class="fade-in">
+    <h2 class="section-title" data-i18n="partners.title">Design‑Partner‑Programm (limitiert)</h2>
+    <p class="subtitle" data-i18n="partners.subtitle">Wir suchen 5 Partner (HNWI‑Integrator, Premium‑Pflege/Klinik) für 90‑Tage‑Piloten – kamera‑frei, on‑device, DSGVO‑konform.</p>
+
+    <div class="uses">
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🤝</div>
+        <h3 data-i18n="partners.benefit.title">Ihr Vorteil</h3>
+        <p data-i18n="partners.benefit.desc">Diskrete Sicherheit, Co‑Design, bevorzugte Konditionen, priorisierte Roadmap.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">🎯</div>
+        <h3 data-i18n="partners.kpi.title">Pilot‑KPIs</h3>
+        <p data-i18n="partners.kpi.desc">FNR Sturz ≤ 3–5%, FPR ≤ 5–8%, Präsenz‑Latenz &lt; 1 s, Atem‑MAE ≤ ±0,5/min.</p>
+      </div>
+      <div class="use-card fade-in">
+        <div class="emoji-icon" aria-hidden="true">📝</div>
+        <h3 data-i18n="partners.req.title">Voraussetzungen</h3>
+        <p data-i18n="partners.req.desc">3–6 Räume, Ansprechpartner, NDA/DPIA. Installation & Schulung durch uns.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:1.5rem;">
+      <a href="#contact" class="btn btn-primary" data-i18n="partners.cta">🚀 Für Pilot bewerben</a>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="fade-in">
+    <div class="newsletter">
+      <h3 data-i18n="newsletter.title">Erster Zugang zu Pilotprojekten</h3>
+      <p data-i18n="newsletter.desc">Sichere dir exklusiven Early Access. Keine Datenweitergabe. Jederzeit kündbar.</p>
+      <form name="newsletter" id="newsletterForm" class="newsletter-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks">
+        <input type="hidden" name="form-name" value="newsletter">
+        <input type="hidden" name="site" value="havenis-ai.netlify.app">
+        <input type="hidden" name="subject" value="HAVENIS AI — Newsletter (havenis-ai.netlify.app)">
+        <input type="email" name="email" placeholder="name@unternehmen.de" required aria-label="E‑Mail für Early Access" data-placeholder="newsletter.email">
+        <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn btn-primary" data-i18n="newsletter.cta">📨 Zugang sichern</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Investoren -->
+  <section id="investors" class="fade-in">
+    <h2 class="section-title" data-i18n="invest.title">Für Investoren</h2>
+    <p class="subtitle" data-i18n="invest.subtitle">Wir planen eine Pre‑Seed‑Runde (400–600 Tsd. €) für Prototyp und 90‑Tage‑Piloten. Struktur: SAFE/Wandeldarlehen, Discount 20%, Cap 4–6 Mio.</p>
+    <div class="uses">
+      <div class="use-card">
+        <div class="emoji-icon">🧭</div>
+        <h3 data-i18n="invest.ms.title">Meilensteine (6–9 Monate)</h3>
+        <p data-i18n="invest.ms.desc">P0 Prototyp (8 Wochen), 2 MoUs (12 Wochen), Pilotstart (16–20 Wochen), P1 Hardware/Integrationen (24–28 Wochen).</p>
+      </div>
+      <div class="use-card">
+        <div class="emoji-icon">📈</div>
+        <h3 data-i18n="invest.use.title">Use of Funds</h3>
+        <p data-i18n="invest.use.desc">KI/Software 35%, Hardware/Proto 25%, Pilots 20%, Compliance/Legal 10%, Overhead 10%.</p>
+      </div>
+      <div class="use-card">
+        <div class="emoji-icon">📩</div>
+        <h3 data-i18n="invest.cta.title">Kontakt</h3>
+        <p><a href="mailto:havenis-ai@web.de?subject=Investor%20Intro%20%2F%20Deck%20anfordern" class="btn btn-outline">Deck anfordern</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="contact" class="fade-in">
+    <h2 class="section-title" data-i18n="contact.title">Rückmeldung erwünscht</h2>
+    <p class="subtitle" data-i18n="contact.subtitle">Interesse an Pilotierung, Kooperation oder Technologie? Schreib uns – wir antworten innerhalb von 24h.</p>
+
+    <div class="contact" style="margin-bottom:1.25rem;">
+      <strong>Direktkontakt</strong><br/>
+      Herr D. Kuss · Tel: <a href="tel:+493361747868">+49 3361 747868</a> · Mobil: <a href="tel:+4915510926776">+49 15510 926776</a><br/>
+      E‑Mail: <a href="mailto:havenis-ai@web.de">havenis-ai@web.de</a> · Web: <a href="https://havenis-ai.netlify.app" target="_blank" rel="noopener">havenis-ai.netlify.app</a>
+    </div>
+
+    <form name="contact" id="contactForm" class="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks">
+      <input type="hidden" name="form-name" value="contact">
+      <input type="hidden" name="site" value="havenis-ai.netlify.app">
+      <input type="hidden" name="subject" value="HAVENIS AI — Kontaktanfrage (havenis-ai.netlify.app)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label data-i18n="contact.form.name">Name</label>
+          <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+          <label data-i18n="contact.form.email">E‑Mail</label>
+          <input type="email" name="email" required>
+        </div>
+        <div class="form-group full">
+          <label data-i18n="contact.form.org">Organisation (optional)</label>
+          <input type="text" name="org">
+        </div>
+        <div class="form-group full">
+          <label data-i18n="contact.form.message">Nachricht</label>
+          <textarea name="message" placeholder="Deine Frage oder Projektidee..." required data-placeholder="contact.form.placeholder"></textarea>
+        </div>
+        <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn btn-primary btn-block" data-i18n="contact.form.send">📨 Nachricht senden</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Rechtlicher Hinweis -->
+  <section class="fade-in" style="max-width:900px;">
+    <div class="use-card">
+      <div class="emoji-icon">⚕️</div>
+      <strong data-i18n="disclaimer.title">Hinweis:</strong>
+      <p class="subtitle" style="margin-top:0.75rem; margin-bottom:0;" data-i18n="disclaimer.text">Kein Medizinprodukt. Nicht zur Diagnose, Behandlung oder für sicherheitskritische Entscheidungen geeignet. Pilotbetrieb ausschließlich nach NDA/DPIA.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#impressum" data-i18n="footer.imprint">Impressum</a>
+      <a href="#datenschutz" data-i18n="footer.privacy">Datenschutz</a>
+      <a href="#agb" data-i18n="footer.terms">AGB</a>
+      <a href="mailto:havenis-ai@web.de">havenis-ai@web.de</a>
+      <a href="tel:+493361747868">+49 3361 747868</a>
+      <a href="tel:+4915510926776">+49 15510 926776</a>
+      <a href="https://havenis-ai.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+    <p data-i18n="footer.location">Fürstenwalde, Deutschland | Entwicklung & Forschung</p>
+    <p style="margin-top: 0.6rem;" data-i18n="footer.copyright">
+      © 2025 HAVENIS-AI UG (haftungsbeschränkt) i.G. Alle Rechte vorbehalten.
+    </p>
+  </footer>
+
+  <!-- Impressum -->
+  <section id="impressum" class="fade-in">
+    <h2 class="section-title">Impressum</h2>
+    <div class="contact">
+      <p><strong>Dienstanbieter gem. § 5 TMG</strong></p>
+      <p><strong>HAVENIS-AI UG (haftungsbeschränkt) i.G.</strong></p>
+      <p>Damaschkeweg 1<br>15517 Fürstenwalde<br>Deutschland</p>
+      <p>Vertretungsberechtigt: Herr D. Kuss (Geschäftsführung)</p>
+      <p>E‑Mail: <a href="mailto:havenis-ai@web.de">havenis-ai@web.de</a><br>Tel: <a href="tel:+493361747868">+49 3361 747868</a> · Mobil: <a href="tel:+4915510926776">+49 15510 926776</a></p>
+      <p>Handelsregister: Eintragung in Vorbereitung (i.G.)</p>
+      <p>USt‑IdNr.: wird beantragt</p>
+      <p>Inhaltlich Verantwortlicher i.S.d. § 18 Abs. 2 MStV: Herr D. Kuss, Anschrift wie oben.</p>
+      <p style="color:var(--muted); margin-top:0.75rem;">Hinweis: Bitte nach Eintragung HRB‑Nummer und ggf. USt‑IdNr. ergänzen.</p>
+    </div>
+  </section>
+
+  <!-- Datenschutz -->
+  <section id="datenschutz" class="fade-in">
+    <h2 class="section-title">Datenschutzerklärung</h2>
+    <div class="contact" style="line-height:1.7;">
+      <p><strong>Verantwortlicher:</strong> HAVENIS-AI UG (haftungsbeschränkt) i.G., Damaschkeweg 1, 15517 Fürstenwalde, Deutschland, E‑Mail: <a href="mailto:havenis-ai@web.de">havenis-ai@web.de</a>, Tel: <a href="tel:+493361747868">+49 3361 747868</a>.</p>
+      <p><strong>Verarbeitungszwecke:</strong> Websitebetrieb, Kontaktanfragen (Kontaktformular), Newsletter (Early Access).</p>
+      <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse) für technische Bereitstellung; Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für Newsletter/Kontakt.</p>
+      <p><strong>Datenkategorien:</strong> Kontaktdaten, Nachrichtentexte, Nutzungsdaten (Server‑Logs). Keine Audio/Video/biometrischen Daten.</p>
+      <p><strong>Empfänger:</strong> Interne Stellen; Auftragsverarbeiter (Hosting/Formular) nur mit AV‑Vertrag.</p>
+      <p><strong>Speicherdauer:</strong> Kontaktanfragen bis Abschluss, Newsletter bis Widerruf; gesetzliche Aufbewahrungspflichten bleiben unberührt.</p>
+      <p><strong>Betroffenenrechte:</strong> Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit, Beschwerde bei einer Aufsichtsbehörde.</p>
+      <p><strong>Newsletter:</strong> Double‑Opt‑In empfohlen. Abmeldung jederzeit möglich.</p>
+      <p><strong>Cookies/Tracking:</strong> Derzeit keine Marketing‑Cookies, keine externen Fonts/Tracker geladen.</p>
+    </div>
+  </section>
+
+  <!-- AGB Platzhalter -->
+  <section id="agb" class="fade-in">
+    <h2 class="section-title">Allgemeine Geschäftsbedingungen (Platzhalter)</h2>
+    <div class="contact">
+      <p>Individuelle AGB folgen mit Pilot‑/Partnerverträgen. Kernpunkte: Leistungsumfang Pilot, SLA, Haftung, Datenschutz, Vertraulichkeit.</p>
+    </div>
+  </section>
+
+  <script>
+    // i18n (Brand: HAVENIS AI)
+    const i18n = {
+      de: {
+        "lang.de":"Deutsch","lang.en":"English","lang.ru":"Русский",
+        "hero.title":"KI, die wahrnimmt – ohne zu berühren",
+        "hero.subtitle":"HAVENIS AI nutzt Wi‑Fi‑Sensing‑KI, um menschliche Anwesenheit, Atmung und Bewegungsmuster kontaktlos zu erkennen – für mehr Sicherheit, Pflege und Komfort.",
+        "hero.cta.primary":"🚀 Early Access anfragen","hero.cta.secondary":"📶 Technologie entdecken",
+        "mission.title":"Innovation mit Verantwortung",
+        "mission.text":"Unsere KI arbeitet ohne Kameras, ohne Mikrofone und ohne biometrische Speicherung. Sie analysiert ausschließlich abstrakte Funkwellenmuster – für maximalen Datenschutz und Akzeptanz.",
+        "mission.point1":"100% anonym: Keine Gesichts‑ oder Audiodaten",
+        "mission.point2":"Einfache Integration: Nutzt bestehendes Wi‑Fi",
+        "mission.point3":"Echtzeitfähig: Ereigniserkennung typ. < 200 ms auf Edge‑Hardware",
+        "mission.badge":"🇩🇪 KI‑Sensing – Entwicklung in Deutschland",
+        "tech.title":"Wie Wi‑Fi‑Sensing funktioniert","tech.subtitle":"Jede Bewegung verändert Wi‑Fi‑Reflexionen. Unsere KI interpretiert diese Muster mit Deep Learning.",
+        "tech.step1.title":"1. Signal‑Erfassung","tech.step1.desc":"Router senden Wi‑Fi‑Wellen und empfangen Reflexionen. Jede Bewegung, jeder Atemzug oder Präsenz erzeugt charakteristische Störungen im Signalraum.",
+        "tech.step2.title":"2. KI‑Dekodierung","tech.step2.desc":"Ein lokal laufendes Deep‑Learning‑Modell verarbeitet Echtzeitdaten zu Bewegungsprofil, Atemfrequenz und räumlicher Position – ohne Cloud.",
+        "tech.step3.title":"3. Anonyme Aktionen","tech.step3.desc":"Ereignisse (z. B. Sturz, Präsenz, Unruhe) lösen Aktionen aus: Alarme, Lichtsteuerung oder anonyme Statistiken – deine Privatsphäre bleibt gewahrt.",
+        "security.title":"Sicherheit & Datenschutz – integriert","security.subtitle":"Privacy‑by‑Design, On‑Device, Ende‑zu‑Ende verschlüsselt. DPIA auf Anfrage.",
+        "security.point1.title":"On‑Device Verarbeitung","security.point1.desc":"Standardmäßig bleiben Rohdaten lokal. Nur Ereignis‑Metadaten optional extern.",
+        "security.point2.title":"DPIA & Verträge","security.point2.desc":"Datenschutz‑Folgenabschätzung, NDAs und AV‑Verträge verfügbar.",
+        "security.point3.title":"Transparente Tests","security.point3.desc":"Pilot‑KPIs mit wöchentlichen Reports. Kein Medizinprodukt – keine Diagnose.",
+        "apps.title":"Anwendungsbereiche mit Mehrwert","apps.subtitle":"Von der pflegenden Nachbarschaft bis zur sicheren Fabrik – unsere KI passt sich an.",
+        "apps.health.title":"Gesundheit & Pflege","apps.health.desc":"Präventive Sturzerkennung, Atemüberwachung und Präsenzkontrolle im Smart Home – diskret und respektvoll.",
+        "apps.smart.title":"Smart Living 2.0","apps.smart.desc":"Räume reagieren auf Präsenz: Licht, Klima und Unterhaltung starten intuitiv – ohne Sprachbefehl oder Touch.",
+        "apps.security.title":"Sicherheit & Gebäude","apps.security.desc":"Erkennung unbefugter Anwesenheit in sensiblen Bereichen – ohne Kameras, ohne Datenschutzbedenken.",
+        "apps.industry.title":"Industrie 4.0","apps.industry.desc":"Mensch‑Maschine‑Zusammenarbeit: Sicherheitssysteme erkennen Arbeiter in Gefahrenzonen in Echtzeit.",
+        "partners.title":"Design‑Partner‑Programm (limitiert)",
+        "partners.subtitle":"Wir suchen 5 Partner (HNWI‑Integrator, Premium‑Pflege/Klinik) für 90‑Tage‑Piloten – kamera‑frei, on‑device, DSGVO‑konform.",
+        "partners.benefit.title":"Ihr Vorteil","partners.benefit.desc":"Diskrete Sicherheit, Co‑Design, bevorzugte Konditionen, priorisierte Roadmap.",
+        "partners.kpi.title":"Pilot‑KPIs","partners.kpi.desc":"FNR Sturz ≤ 3–5%, FPR ≤ 5–8%, Präsenz‑Latenz < 1 s, Atem‑MAE ≤ ±0,5/min.",
+        "partners.req.title":"Voraussetzungen","partners.req.desc":"3–6 Räume, Ansprechpartner, NDA/DPIA. Installation & Schulung durch uns.",
+        "partners.cta":"🚀 Für Pilot bewerben",
+        "newsletter.title":"Erster Zugang zu Pilotprojekten","newsletter.desc":"Sichere dir exklusiven Early Access. Keine Datenweitergabe. Jederzeit kündbar.","newsletter.cta":"📨 Zugang sichern",
+        "invest.title":"Für Investoren","invest.subtitle":"Wir planen eine Pre‑Seed‑Runde (400–600 Tsd. €) für Prototyp und 90‑Tage‑Piloten. Struktur: SAFE/Wandeldarlehen, Discount 20%, Cap 4–6 Mio.",
+        "invest.ms.title":"Meilensteine (6–9 Monate)","invest.ms.desc":"P0 Prototyp (8 Wochen), 2 MoUs (12 Wochen), Pilotstart (16–20 Wochen), P1 Hardware/Integrationen (24–28 Wochen).",
+        "invest.use.title":"Use of Funds","invest.use.desc":"KI/Software 35%, Hardware/Proto 25%, Pilots 20%, Compliance/Legal 10%, Overhead 10%.",
+        "invest.cta.title":"Kontakt",
+        "contact.title":"Rückmeldung erwünscht","contact.subtitle":"Interesse an Pilotierung, Kooperation oder Technologie? Schreib uns – wir antworten innerhalb von 24h.",
+        "contact.form.name":"Name","contact.form.email":"E‑Mail","contact.form.org":"Organisation (optional)","contact.form.message":"Nachricht","contact.form.send":"📨 Nachricht senden","contact.form.placeholder":"Deine Frage oder Projektidee...","contact.success":"✅ Vielen Dank! Deine Nachricht wurde übermittelt. Wir melden uns schnellstmöglich.",
+        "disclaimer.title":"Hinweis:","disclaimer.text":"Kein Medizinprodukt. Nicht zur Diagnose, Behandlung oder für sicherheitskritische Entscheidungen geeignet. Pilotbetrieb ausschließlich nach NDA/DPIA.",
+        "footer.imprint":"Impressum","footer.privacy":"Datenschutz","footer.terms":"AGB","footer.location":"Fürstenwalde, Deutschland | Entwicklung & Forschung",
+        "newsletter.email":"name@unternehmen.de"
+      },
+      en: {
+        "lang.de":"Deutsch","lang.en":"English","lang.ru":"Русский",
+        "hero.title":"AI that senses – without touching",
+        "hero.subtitle":"HAVENIS AI uses Wi‑Fi Sensing AI to detect human presence, breathing, and motion patterns contactlessly – enhancing safety, care, and comfort.",
+        "hero.cta.primary":"🚀 Request Early Access","hero.cta.secondary":"📶 Explore Technology",
+        "mission.title":"Innovation with responsibility",
+        "mission.text":"Our AI operates without cameras, microphones, or biometric storage. It only analyzes abstract radio‑wave patterns – ensuring maximum privacy and acceptance.",
+        "mission.point1":"100% anonymous: No facial or audio data","mission.point2":"Easy integration: Uses existing Wi‑Fi","mission.point3":"Real‑time: event detection typically < 200 ms on edge hardware","mission.badge":"🇩🇪 German‑engineered Wi‑Fi Sensing",
+        "tech.title":"How Wi‑Fi Sensing works","tech.subtitle":"Every movement changes Wi‑Fi reflections. Our AI interprets these patterns using deep learning.",
+        "tech.step1.title":"1. Signal capture","tech.step1.desc":"Routers emit Wi‑Fi waves and capture reflections. Each movement, breath, or presence creates characteristic disturbances.",
+        "tech.step2.title":"2. AI decoding","tech.step2.desc":"An on‑device deep‑learning model turns real‑time data into motion profiles, respiratory rate, and spatial position – no cloud required.",
+        "tech.step3.title":"3. Anonymous actions","tech.step3.desc":"Events (e.g., fall, presence, unrest) trigger alerts, lighting control, or anonymous analytics – your privacy remains intact.",
+        "security.title":"Security & privacy – built‑in","security.subtitle":"Privacy‑by‑Design, on‑device, end‑to‑end encrypted. DPIA available.",
+        "apps.title":"Real‑world applications","apps.subtitle":"From elderly care to industrial safety – our AI adapts intelligently.",
+        "apps.health.title":"Health & Care","apps.health.desc":"Preventive fall detection, breathing monitoring, and presence awareness – discreet and respectful.",
+        "apps.smart.title":"Smart Living 2.0","apps.smart.desc":"Rooms react to presence: lights, climate, and entertainment start intuitively – no voice or touch needed.",
+        "apps.security.title":"Security & Buildings","apps.security.desc":"Detect unauthorized presence in sensitive areas – no cameras, no privacy concerns.",
+        "apps.industry.title":"Industry 4.0","apps.industry.desc":"Human‑machine collaboration: safety systems detect workers in hazardous zones in real time.",
+        "partners.title":"Design‑Partner Program (limited)","partners.subtitle":"We’re seeking 5 partners (HNWI integrator, premium care/clinic) for 90‑day pilots – camera‑free, on‑device, GDPR‑compliant.",
+        "partners.benefit.title":"Your benefits","partners.benefit.desc":"Discrete security, co‑design, preferred terms, prioritized roadmap.",
+        "partners.kpi.title":"Pilot KPIs","partners.kpi.desc":"Fall FNR ≤ 3–5%, FPR ≤ 5–8%, presence latency < 1 s, breathing MAE ≤ ±0.5/min.",
+        "partners.req.title":"Requirements","partners.req.desc":"3–6 rooms, point of contact, NDA/DPIA. Installation & training by us.",
+        "partners.cta":"🚀 Apply for pilot",
+        "newsletter.title":"Get early access to pilots","newsletter.desc":"Join the exclusive list. No data sharing. Cancel anytime.","newsletter.cta":"📨 Secure Access",
+        "invest.title":"For investors","invest.subtitle":"We’re preparing a pre‑seed round (€400–600k) for prototype and 90‑day pilots. Structure: SAFE/convertible, 20% discount, €4–6m cap.",
+        "invest.ms.title":"Milestones (6–9 months)","invest.ms.desc":"P0 prototype (8 weeks), 2 MoUs (12 weeks), pilot start (16–20 weeks), P1 hardware/integrations (24–28 weeks).",
+        "invest.use.title":"Use of funds","invest.use.desc":"AI/software 35%, hardware/proto 25%, pilots 20%, compliance/legal 10%, overhead 10%.",
+        "invest.cta.title":"Contact",
+        "contact.title":"Let's start a conversation","contact.subtitle":"Interested in testing, collaboration, or technical details? Write us – we reply within 24h.",
+        "contact.form.name":"Name","contact.form.email":"Email","contact.form.org":"Organization (optional)","contact.form.message":"Message","contact.form.send":"📨 Send message","contact.form.placeholder":"Your question or project idea...","contact.success":"✅ Thank you! Your message has been sent. We'll get back to you shortly.",
+        "disclaimer.title":"Notice:","disclaimer.text":"Not a medical device. Not intended for diagnosis, treatment, or safety‑critical decisions. Pilots only under NDA/DPIA.",
+        "footer.imprint":"Imprint","footer.privacy":"Privacy Policy","footer.terms":"Terms","footer.location":"Fürstenwalde, Germany | R&D",
+        "newsletter.email":"name@company.com"
+      },
+      ru: {
+        "lang.de":"Deutsch","lang.en":"English","lang.ru":"Русский",
+        "hero.title":"ИИ, который чувствует – без прикосновений",
+        "hero.subtitle":"HAVENIS AI использует Wi‑Fi‑Sensing ИИ для бесконтактного определения присутствия, дыхания и паттернов движения – для безопасности и комфорта.",
+        "hero.cta.primary":"🚀 Запросить ранний доступ","hero.cta.secondary":"📶 О технологии",
+        "mission.title":"Инновации с ответственностью",
+        "mission.text":"Наш ИИ работает без камер и микрофонов и без хранения биометрии. Анализируются только абстрактные радиосигналы – максимум приватности.",
+        "mission.point1":"100% анонимно: без данных лица и голоса","mission.point2":"Простая интеграция: используется существующий Wi‑Fi","mission.point3":"Реальное время: определение событий обычно < 200 мс на локальном устройстве","mission.badge":"🇩🇪 Немецкая разработка Wi‑Fi Sensing",
+        "tech.title":"Как работает Wi‑Fi Sensing","tech.subtitle":"Каждое движение меняет отражения Wi‑Fi. Наш ИИ декодирует эти паттерны с помощью глубокого обучения.",
+        "tech.step1.title":"1. Захват сигнала","tech.step1.desc":"Роутеры излучают волны и улавливают отражения. Движение, дыхание или присутствие создают характерные искажения.",
+        "tech.step2.title":"2. Декодирование ИИ","tech.step2.desc":"Локальная модель глубокого обучения преобразует данные в профиль движения, ЧДД и положение – без облака.",
+        "tech.step3.title":"3. Анонимные действия","tech.step3.desc":"События (падение, присутствие, беспокойство) запускают оповещения, управление светом или анонимную аналитику.",
+        "security.title":"Безопасность и приватность – по умолчанию","security.subtitle":"Privacy‑by‑Design, локальная обработка, сквозное шифрование. DPIA по запросу.",
+        "apps.title":"Сферы применения","apps.subtitle":"От ухода за пожилыми до промышленной безопасности – технология адаптируется.",
+        "apps.health.title":"Здоровье и уход","apps.health.desc":"Профилактика падений, мониторинг дыхания и контроль присутствия – ненавязчиво и уважительно.",
+        "apps.smart.title":"Умный дом 2.0","apps.smart.desc":"Помещения реагируют на присутствие: свет, климат и развлечения запускаются интуитивно.",
+        "apps.security.title":"Безопасность и здания","apps.security.desc":"Обнаружение несанкционированного присутствия в чувствительных зонах – без камер.",
+        "apps.industry.title":"Индустрия 4.0","apps.industry.desc":"Человек‑машина: системы безопасности видят людей в зоне риска в реальном времени.",
+        "partners.title":"Программа дизайн‑партнеров (ограничено)","partners.subtitle":"Ищем 5 партнеров (интегратор HNWI, премиальный уход/клиника) на 90‑дневные пилоты – без камер, локально, GDPR‑совместимо.",
+        "partners.benefit.title":"Преимущества","partners.benefit.desc":"Деликатная безопасность, co‑design, особые условия, приоритетный roadmap.",
+        "partners.kpi.title":"KPI пилота","partners.kpi.desc":"FNR падений ≤ 3–5%, FPR ≤ 5–8%, задержка присутствия < 1 с, ЧДД MAE ≤ ±0,5/мин.",
+        "partners.req.title":"Требования","partners.req.desc":"3–6 комнат, ответственный, NDA/DPIA. Монтаж и обучение – с нашей стороны.",
+        "partners.cta":"🚀 Подать заявку на пилот",
+        "newsletter.title":"Первый доступ к пилотам","newsletter.desc":"Подпишитесь на ранний доступ. Нет передачи данных. Отмена в любой момент.","newsletter.cta":"📨 Получить доступ",
+        "invest.title":"Для инвесторов","invest.subtitle":"Pre‑seed (€400–600k) для прототипа и 90‑дневных пилотов. SAFE/конвертируемый заем, скидка 20%, cap €4–6м.",
+        "invest.ms.title":"Вехи (6–9 мес.)","invest.ms.desc":"P0 прототип (8 нед), 2 MoU (12 нед), запуск пилота (16–20 нед), P1 железо/интеграции (24–28 нед).",
+        "invest.use.title":"Use of funds","invest.use.desc":"ИИ/ПО 35%, железо/прототип 25%, пилоты 20%, комплаенс/юристы 10%, накладные 10%.",
+        "invest.cta.title":"Контакт",
+        "contact.title":"Свяжитесь с нами","contact.subtitle":"Тестирование, сотрудничество или технические детали? Пишите — ответ в течение 24 часов.",
+        "contact.form.name":"Имя","contact.form.email":"Эл. почта","contact.form.org":"Организация (необязательно)","contact.form.message":"Сообщение","contact.form.send":"📨 Отправить","contact.form.placeholder":"Ваш вопрос или идея проекта...","contact.success":"✅ Спасибо! Сообщение отправлено. Мы скоро ответим.",
+        "disclaimer.title":"Важно:","disclaimer.text":"Не является медицинским изделием. Не для диагностики/лечения или критичных решений. Пилоты только по NDA/DPIA.",
+        "footer.imprint":"Правовая информация","footer.privacy":"Конфиденциальность","footer.terms":"Условия","footer.location":"Фюрстенвальде, Германия | R&D",
+        "newsletter.email":"name@company.com"
+      }
+    };
+
+    let currentLang = 'de';
+    function setLanguage(lang){
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key=el.dataset.i18n;
+        if(i18n[lang] && i18n[lang][key]) el.innerHTML = i18n[lang][key];
+      });
+      document.querySelectorAll('[data-placeholder]').forEach(el=>{
+        const key=el.dataset.placeholder;
+        if(i18n[lang] && i18n[lang][key]) el.placeholder = i18n[lang][key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn=>{
+        const isActive = btn.dataset.lang === lang;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true':'false');
+      });
+      localStorage.setItem('havenis-lang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('.lang-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=> setLanguage(btn.dataset.lang));
+      });
+      const savedLang = localStorage.getItem('havenis-lang') || 'de';
+      setLanguage(savedLang);
+
+      const observer = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.fade-in').forEach(el=> observer.observe(el));
+    });
+  </script>
+</body>
+</html></script>
